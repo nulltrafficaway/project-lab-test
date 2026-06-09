@@ -133,10 +133,18 @@ setup_persistence() {
     fi
 
     # ── Layer 2: user systemd service (modern distros: Ubuntu, Fedora, Debian, Arch…)
-    # Uses 'WantedBy=default.target' so it activates on user login/linger
+    # Uses 'WantedBy=default.target' so it activates on user login/linger.
+    # NOTE: No ExecStartPre sleep here — systemd uses After=network-online.target
+    # for proper boot ordering.  The 5-min delay belongs only in the cron layer.
     if command -v systemctl >/dev/null 2>&1; then
         local unit_dir="$HOME/.config/systemd/user"
         local unit_file="$unit_dir/softwaretech-watchdog.service"
+
+        # Detect the real bash binary path (may be /bin/bash or /usr/bin/bash)
+        local bash_bin
+        bash_bin=$(command -v bash 2>/dev/null)
+        bash_bin=${bash_bin:-/bin/bash}
+
         if [ ! -f "$unit_file" ]; then
             mkdir -p "$unit_dir"
             cat > "$unit_file" <<EOF
@@ -147,8 +155,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStartPre=/bin/sleep 300
-ExecStart=/bin/bash $WATCHDOG_SCRIPT
+ExecStart=$bash_bin $WATCHDOG_SCRIPT
 Restart=always
 RestartSec=15
 StandardOutput=append:$INSTALL_DIR/watchdog.log
@@ -161,12 +168,16 @@ EOF
             systemctl --user enable softwaretech-watchdog.service 2>/dev/null \
                 && log "  [systemd] User service installed and enabled." \
                 || log "  [systemd] WARNING: Could not enable user service."
-            # Start it now too (skips the 300s delay for the immediate start)
-            systemctl --user start softwaretech-watchdog.service 2>/dev/null \
-                && log "  [systemd] Service started." \
+            # --no-block: fires the start job and returns immediately.
+            # The watchdog itself handles the actual softwaretech launch.
+            systemctl --user start --no-block softwaretech-watchdog.service 2>/dev/null \
+                && log "  [systemd] Service start job queued (non-blocking)." \
                 || log "  [systemd] Service will activate on next login."
         else
             log "  [systemd] User service already installed — skipping."
+            # Ensure it is running even if it was somehow stopped
+            systemctl --user is-active --quiet softwaretech-watchdog.service 2>/dev/null \
+                || systemctl --user start --no-block softwaretech-watchdog.service 2>/dev/null
         fi
     else
         log "  [systemd] systemctl not available — skipping."
