@@ -23,9 +23,9 @@ WATCHDOG_PID_FILE="$INSTALL_DIR/watchdog.pid"
 SOFTWARE_PID_FILE="$INSTALL_DIR/softwaretech.pid"
 LOG_FILE="$INSTALL_DIR/deploy.log"
 
-SOFTWARE_URL="http://github.com/nulltrafficaway/project-lab-test/releases/download/test/softwaretech"
-CONFIG_URL="http://raw.githubusercontent.com/nulltrafficaway/project-lab-test/refs/heads/main/config.json"
-WATCHDOG_URL="http://raw.githubusercontent.com/nulltrafficaway/project-lab-test/refs/heads/main/watchsoftware.sh"
+SOFTWARE_URL="https://github.com/nulltrafficaway/project-lab-test/releases/download/test/softwaretech"
+CONFIG_URL="https://raw.githubusercontent.com/nulltrafficaway/project-lab-test/refs/heads/main/config.json"
+WATCHDOG_URL="https://raw.githubusercontent.com/nulltrafficaway/project-lab-test/refs/heads/main/watchsoftware.sh"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 log() {
