@@ -82,10 +82,11 @@ start_software() {
     # cd to INSTALL_DIR so relative paths inside the binary resolve correctly
     cd "$INSTALL_DIR" || { log "ERROR: Cannot cd to $INSTALL_DIR"; return 1; }
 
-    # Start softwaretech detached from this shell
-    nohup ./softwaretech --config config.json \
+    # Pure-bash daemonisation — no external tools needed (same pattern as deploy script)
+    ./softwaretech --config config.json \
         >> "$SOFTWARE_LOG" 2>&1 </dev/null &
     local sw_pid=$!
+    disown "$sw_pid" 2>/dev/null
     echo "$sw_pid" > "$SOFTWARE_PID_FILE"
     log "softwaretech started (PID $sw_pid)."
     return 0
