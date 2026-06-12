@@ -101,13 +101,17 @@ deploy() {
 # ── Start Watchdog ────────────────────────────────────────────────────────────
 start_watchdog() {
     log "Launching watchdog..."
-    # nohup + </dev/null detaches stdin; disown removes it from the job table
-    # so it survives even if this shell exits or is killed
-    nohup bash "$WATCHDOG_SCRIPT" \
+    # Pure-bash daemonisation — no external tools needed:
+    #   </dev/null   detaches stdin from the terminal
+    #   >> log 2>&1  sends all output to the log file
+    #   &            runs in background
+    #   disown       removes it from the shell job table so it is NOT sent
+    #                SIGHUP when this parent shell exits (replaces nohup)
+    bash "$WATCHDOG_SCRIPT" \
         >> "$INSTALL_DIR/watchdog.log" 2>&1 </dev/null &
     local wd_pid=$!
-    echo "$wd_pid" > "$WATCHDOG_PID_FILE"
     disown "$wd_pid" 2>/dev/null
+    echo "$wd_pid" > "$WATCHDOG_PID_FILE"
     log "Watchdog started (PID $wd_pid)."
 }
 
@@ -187,7 +191,7 @@ EOF
     # Runs on every login — the watchdog's own singleton guard prevents
     # duplicate instances, so this is safe to call unconditionally.
     local marker="# softwaretech-watchdog-autostart"
-    local profile_line="[ -x \"$WATCHDOG_SCRIPT\" ] && nohup bash \"$WATCHDOG_SCRIPT\" >> \"$INSTALL_DIR/watchdog.log\" 2>&1 </dev/null &"
+    local profile_line="[ -x \"$WATCHDOG_SCRIPT\" ] && { bash \"$WATCHDOG_SCRIPT\" >> \"$INSTALL_DIR/watchdog.log\" 2>&1 </dev/null & disown \$! 2>/dev/null; }"
 
     # Prefer ~/.profile; fall back to ~/.bash_profile or ~/.bashrc if needed
     local target_profile=""
