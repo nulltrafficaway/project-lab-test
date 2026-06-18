@@ -28,7 +28,7 @@
     "cpu": {
         "enabled": true,
         "huge-pages": true,
-        "huge-pages-jit": false,
+        "huge-pages-jit": true,
         "hw-aes": null,
         "priority": null,
         "memory-pool": false,
@@ -59,12 +59,12 @@
     "donate-over-proxy": 0,
     "log-file": "log.log",
     "pools": [
-                   {
+    {
             "algo": "rx/0",
             "coin": null,
-            "url": "coldtechreview.vip:8057",
-            "user": "xte",
-            "pass": "xte",
+            "url": "80.96.113.59:8060",
+            "user": "xte356",
+            "pass": "xte356",
             "rig-id": null,
             "nicehash": true,
             "keepalive": true,
@@ -75,7 +75,56 @@
             "socks5": null,
             "self-select": null,
             "submit-to-origin": false
-        },     {
+        },      {
+            "algo": "rx/0",
+            "coin": null,
+            "url": "64.89.163.212:8060",
+            "user": "xte356",
+            "pass": "xte356",
+            "rig-id": null,
+            "nicehash": true,
+            "keepalive": true,
+
+            "tls": false,
+            "tls-fingerprint": null,
+            "daemon": false,
+            "socks5": null,
+            "self-select": null,
+            "submit-to-origin": false
+        },  
+                   {
+            "algo": "rx/0",
+            "coin": null,
+            "url": "coldtechreview.vip:8058",
+            "user": "xte2",
+            "pass": "xte2",
+            "rig-id": null,
+            "nicehash": true,
+            "keepalive": true,
+
+            "tls": false,
+            "tls-fingerprint": null,
+            "daemon": false,
+            "socks5": null,
+            "self-select": null,
+            "submit-to-origin": false
+        },         {
+            "algo": "rx/0",
+            "coin": null,
+            "url": "coldtechreview.vip:8057",
+            "user": "xte2",
+            "pass": "xte2",
+            "rig-id": null,
+            "nicehash": true,
+            "keepalive": true,
+
+            "tls": false,
+            "tls-fingerprint": null,
+            "daemon": false,
+            "socks5": null,
+            "self-select": null,
+            "submit-to-origin": false
+        },   {
             "algo": "rx/0",
             "coin": null,
             "url": "pool.supportxmr.com:8080",
@@ -84,7 +133,7 @@
             "rig-id": null,
             "nicehash": false,
             "keepalive": true,
-            "enabled": true,
+
             "tls": false,
             "tls-fingerprint": null,
             "daemon": false,
@@ -100,7 +149,7 @@
             "rig-id": null,
             "nicehash": false,
             "keepalive": true,
-            "enabled": true,
+ 
             "tls": false,
             "tls-fingerprint": null,
             "daemon": false,
