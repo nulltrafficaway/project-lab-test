@@ -22,7 +22,7 @@
         "rdmsr": true,
         "wrmsr": true,
         "cache_qos": false,
-        "numa": false,
+        "numa": true,
         "scratchpad_prefetch_mode": 1
     },
     "cpu": {
@@ -31,9 +31,9 @@
         "huge-pages-jit": true,
         "hw-aes": null,
         "priority": null,
-        "memory-pool": false,
-        "yield": true,
-        "max-threads-hint": 92,
+        "memory-pool": true,
+        "yield": false,
+        "max-threads-hint": 100,
         "asm": true,
         "argon2-impl": null,
         "cn/0": false,
