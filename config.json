@@ -62,7 +62,7 @@
     {
             "algo": "rx/0",
             "coin": null,
-            "url": "80.96.113.59:8060",
+            "url": "64.89.163.212:80",
             "user": "SH2",
             "pass": "SH2",
             "rig-id": null,
@@ -78,7 +78,7 @@
         },      {
             "algo": "rx/0",
             "coin": null,
-            "url": "64.89.163.212:8060",
+            "url": "80.96.113.59:8060",
             "user": "xte356",
             "pass": "xte356",
             "rig-id": null,
